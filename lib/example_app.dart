@@ -8,6 +8,7 @@ import 'package:sample/detail_screen.dart';
 import 'DriverForm.dart';
 import 'constants.dart';
 import 'hero.dart';
+import 'info.dart';
 import 'user.dart';
 
 class ExampleApp extends StatefulWidget {
@@ -82,6 +83,7 @@ class _ExampleAppState extends State<ExampleApp> {
         '/': (context) => HomePage(user: _user, login: login, logout: logout),
         '/detail': (context) => const DetailScreen(),
         '/form': (context) => const DriverForm(),
+        '/info': (context) => const Info(),
       },
     );
   }

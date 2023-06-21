@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auth0_flutter/auth0_flutter.dart';
 
+import 'info.dart';
+
 class UserWidget extends StatefulWidget {
   final UserProfile? user;
 
@@ -99,6 +101,9 @@ class _UserWidgetState extends State<UserWidget> {
                 onPressed: () {
                   if (Form.of(context).validate()) {
                     // Lógica adicional al presionar el botón "Enviar"
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Processing Data')),
+                    );
                   }
                 },
                 child: const Text('Enviar'),
@@ -106,6 +111,13 @@ class _UserWidgetState extends State<UserWidget> {
             ],
           ),
         ),
+                    ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const Info(
+                          )));
+                },
+                child: const Text('Nueva Vista roque'))
       ],
     );
   }
