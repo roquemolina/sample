@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sample/detail_screen.dart';
 
+import 'DriverForm.dart';
 import 'constants.dart';
 import 'hero.dart';
 import 'user.dart';
@@ -80,6 +81,7 @@ class _ExampleAppState extends State<ExampleApp> {
       routes: {
         '/': (context) => HomePage(user: _user, login: login, logout: logout),
         '/detail': (context) => const DetailScreen(),
+        '/form': (context) => const DriverForm(),
       },
     );
   }

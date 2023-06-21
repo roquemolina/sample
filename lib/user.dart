@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:sample/detail_screen.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+
+import 'DriverForm.dart';
+//import 'dart:convert';
+//import 'package:http/http.dart' as http;
 
 class UserWidget extends StatelessWidget {
   final UserProfile? user;
 
   const UserWidget({required this.user, final Key? key}) : super(key: key);
 
-  void postBack() async {
+/*   void postBack() async {
     final username = user?.name;
     final email = user?.email;
 
@@ -28,12 +30,12 @@ class UserWidget extends StatelessWidget {
     } else {
       print('No se pudo agregar los datos');
     }
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
-    postBack();
-    final pictureUrl = user?.pictureUrl;
+//    postBack();
+    /* final pictureUrl = user?.pictureUrl;
     // id, name, email, email verified, updated_at
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       if (pictureUrl != null)
@@ -60,6 +62,12 @@ class UserWidget extends StatelessWidget {
             Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const DetailScreen()));
           },
+          child: const Text('Probando Detail')),
+      ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const DriverForm()));
+          },
           child: const Text('Probando Detail'))
     ]);
   }
@@ -82,4 +90,13 @@ class UserEntryWidget extends StatelessWidget {
           children: [Text(propertyName), Text(propertyValue ?? '')],
         ));
   }
+*/
+
+return const Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    DriverForm()
+  ]
+);
+}
 }
