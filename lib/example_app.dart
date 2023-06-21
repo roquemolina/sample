@@ -3,6 +3,7 @@ import 'package:auth0_flutter/auth0_flutter_web.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:sample/detail_screen.dart';
 
 import 'constants.dart';
 import 'hero.dart';
@@ -40,16 +41,16 @@ class _ExampleAppState extends State<ExampleApp> {
   Future<void> login() async {
     try {
       if (kIsWeb) {
-        return auth0Web.loginWithRedirect(redirectUrl: 'http://localhost:3000');
+        await auth0Web.loginWithRedirect(redirectUrl: 'http://localhost:3000');
+      } else {
+        var credentials = await auth0
+            .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
+            .login();
+
+        setState(() {
+          _user = credentials.user;
+        });
       }
-
-      var credentials = await auth0
-          .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
-          .login();
-
-      setState(() {
-        _user = credentials.user;
-      });
     } catch (e) {
       print(e);
     }
@@ -75,40 +76,57 @@ class _ExampleAppState extends State<ExampleApp> {
   @override
   Widget build(final BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-          body: Padding(
-        padding: const EdgeInsets.only(
-          top: padding,
-          bottom: padding,
-          left: padding / 2,
-          right: padding / 2,
-        ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Expanded(
-              child: Row(children: [
-            _user != null
-                ? Expanded(child: UserWidget(user: _user))
-                : const Expanded(child: HeroWidget())
-          ])),
-          _user != null
-              ? ElevatedButton(
-                  onPressed: logout,
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.black),
-                  ),
-                  child: const Text('Logout'),
-                )
-              : ElevatedButton(
-                  onPressed: login,
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.black),
-                  ),
-                  child: const Text('Login'),
-                )
-        ]),
-      )),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(user: _user, login: login, logout: logout),
+        '/detail': (context) => const DetailScreen(),
+      },
     );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  final UserProfile? user;
+  final Future<void> Function()? login;
+  final Future<void> Function()? logout;
+
+  const HomePage({super.key, this.user, this.login, this.logout});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Padding(
+      padding: const EdgeInsets.only(
+        top: padding,
+        bottom: padding,
+        left: padding / 2,
+        right: padding / 2,
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        Expanded(
+            child: Row(children: [
+          user != null
+              ? Expanded(child: UserWidget(user: user))
+              : const Expanded(child: HeroWidget())
+        ])),
+        user != null
+            ? ElevatedButton(
+                onPressed: logout,
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black),
+                ),
+                child: const Text('Logout'),
+              )
+            : ElevatedButton(
+                onPressed: login,
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black),
+                ),
+                child: const Text('Login'),
+              )
+      ]),
+    ));
   }
 }

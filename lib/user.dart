@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:auth0_flutter/auth0_flutter.dart';
+import 'package:sample/detail_screen.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class UserWidget extends StatelessWidget {
   final UserProfile? user;
 
   const UserWidget({required this.user, final Key? key}) : super(key: key);
 
+  void postBack() async {
+    final username = user?.name;
+    final email = user?.email;
+
+    // Realizar la solicitud HTTP POST al backend
+    final response = await http.post(
+      Uri.parse('http://localhost:3024/auth/register'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'name': username,
+        'email': email,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('Se agregaron exitosamente');
+    } else {
+      print('No se pudo agregar los datos');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    postBack();
     final pictureUrl = user?.pictureUrl;
     // id, name, email, email verified, updated_at
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -29,7 +54,13 @@ class UserWidget extends StatelessWidget {
         UserEntryWidget(
             propertyName: 'Updated at',
             propertyValue: user?.updatedAt?.toIso8601String()),
-      ]))
+      ])),
+      ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const DetailScreen()));
+          },
+          child: const Text('Probando Detail'))
     ]);
   }
 }
