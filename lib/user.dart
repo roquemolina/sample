@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:sample/detail_screen.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-import 'DriverForm.dart';
-//import 'dart:convert';
-//import 'package:http/http.dart' as http;
-
-class UserWidget extends StatelessWidget {
+class UsegitrWidget extends StatefulWidget {
   final UserProfile? user;
 
   const UserWidget({required this.user, final Key? key}) : super(key: key);
 
-/*   void postBack() async {
+  void postBack() async {
     final username = user?.name;
     final email = user?.email;
 
@@ -30,12 +28,22 @@ class UserWidget extends StatelessWidget {
     } else {
       print('No se pudo agregar los datos');
     }
-  } */
+  }
+
+class _UserWidgetState extends State<UserWidget> {
+  final List<String> empresas = [
+    'Empresa A',
+    'Empresa B',
+    'Empresa C',
+    'Empresa D',
+  ];
+
+  String? selectedEmpresa;
 
   @override
   Widget build(BuildContext context) {
-//    postBack();
-    /* final pictureUrl = user?.pictureUrl;
+    postBack();
+    final pictureUrl = user?.pictureUrl;
     // id, name, email, email verified, updated_at
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       if (pictureUrl != null)
@@ -62,12 +70,6 @@ class UserWidget extends StatelessWidget {
             Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const DetailScreen()));
           },
-          child: const Text('Probando Detail')),
-      ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const DriverForm()));
-          },
           child: const Text('Probando Detail'))
     ]);
   }
@@ -77,18 +79,24 @@ class UserEntryWidget extends StatelessWidget {
   final String propertyName;
   final String? propertyValue;
 
-  const UserEntryWidget(
-      {required this.propertyName, required this.propertyValue, final Key? key})
-      : super(key: key);
+  const UserEntryWidget({
+    required this.propertyName,
+    required this.propertyValue,
+    final Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(6),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text(propertyName), Text(propertyValue ?? '')],
-        ));
+      padding: const EdgeInsets.all(6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(propertyName),
+          Text(propertyValue ?? ''),
+        ],
+      ),
+    );
   }
 */
 
